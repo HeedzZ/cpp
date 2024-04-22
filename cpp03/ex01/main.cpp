@@ -14,14 +14,14 @@
 
 int main(void)
 {
-	ClapTrap clap("Karim");
-	ScavTrap opp1("Walid");
-	ScavTrap opp2(opp1);
+	ClapTrap clap1("clap1");
+	ScavTrap scav1("scav1");
+	ScavTrap scav2(scav1);
 
-	clap.attack("la police");
-	opp1.attack( "la police" );
-    opp1.takeDamage( 10 );
-    opp1.beRepaired( 10 );
-    opp1.guardGate();
+	clap1.attack("scav1");
+	scav1.attack( "clap1" );
+    clap1.takeDamage( 20 );
+    scav1.beRepaired( 10 );
+    scav1.guardGate();
 	return 0;
 }
