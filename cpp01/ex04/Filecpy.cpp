@@ -31,11 +31,14 @@ void	Filecpy::replace( std::string s1, std::string s2)
 		{
 			std::ofstream	ofs(this->_outfile.c_str());
 			size_t			pos = content.find(s1);
-			while (pos != std::string::npos)
+			size_t			flag = content.find(s1);
+			while (flag != std::string::npos)
 			{
 				content.erase(pos, s1.length());
 				content.insert(pos, s2);
-				pos = content.find(s1);
+				flag = content.substr(pos + s2.length(), std::string::npos).find(s1);
+				pos+=flag + 1;
+				pos+= s2.length() - 1;
 			}
 			ofs << content;
 			ofs.close();
@@ -47,3 +50,4 @@ void	Filecpy::replace( std::string s1, std::string s2)
 	else
 		std::cerr << "Unable to open the file.\n";
 }
+
