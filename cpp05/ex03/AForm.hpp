@@ -21,7 +21,7 @@ class Bureaucrat;
 
 class AForm
 {
-	protected:
+	private:
 		const std::string _name;
 		bool _is_signed;
 		const int _sign_grade;
@@ -34,7 +34,7 @@ class AForm
 		AForm(const std::string name, int sign_grade, int exec_grade);
 		virtual	~AForm();
 
-		void beSigned(Bureaucrat &signer);
+		void beSigned(const Bureaucrat& bureaucrat);
 		virtual void execute(Bureaucrat const &executor)const = 0;
 		const std::string getName(void)const;
 		const std::string getIsSigned(void)const;

@@ -25,7 +25,7 @@ int main(void)
 
 	try
 	{
-		b->beSigned(*a);
+		a->signForm(*b);
 	}
 	catch(Bureaucrat::GradeTooLowException &e)
 	{
@@ -50,7 +50,7 @@ int main(void)
 	std::cout << &vform;
 	try
 	{
-		vform.beSigned(new_employee);
+		new_employee.signForm(vform);
 	}
 	catch(Bureaucrat::GradeTooLowException &e)
 	{

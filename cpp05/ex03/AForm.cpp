@@ -51,17 +51,12 @@ AForm &AForm::operator=(const AForm &src)
 	return *this;
 }
 
-void AForm::beSigned(Bureaucrat &signer)
+void AForm::beSigned(const Bureaucrat& bureaucrat)
 {
-	if ((int)signer.getGrade() > this->getSignGrade())
-		throw(Bureaucrat::GradeTooLowException());
-	else if (this->getIsSigned() == "False")
-	{
-		this->_is_signed = true;
-		std::cout << this->getName() << " Form signed by " << signer.getName() << std::endl;
-	}
+    if (bureaucrat.getGrade() <= this->_sign_grade)
+        this->_is_signed = true;
 	else
-		std::cout << this->getName() << " Form is already signed" << std::endl;
+        throw AForm::GradeTooLowException();
 }
 
 void AForm::execute(Bureaucrat const &executor)const

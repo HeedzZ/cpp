@@ -61,11 +61,11 @@ AForm	*Intern::makeForm(const std::string form_name, const std::string target)
 	{
 		if (form_name == forms[i])
 		{
-			std::cout << "Intern creates " << form_name << " now" << std::endl;
+			std::cout << "Intern creates " << form_name << std::endl;
 			return (all_forms[i](target));
 		}
 	}
-
+	std::cerr << "Intern couldn't creates " << form_name << std::endl;
 	throw(AForm::InvalidFormException());
 	return (NULL);
 }

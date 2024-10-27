@@ -42,18 +42,18 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src)
 	if (this == &src)
 		return *this;
 
-	this->_grade = src.getGrade();
+	_grade = src.getGrade();
 	return *this;
 }
 
 const std::string	Bureaucrat::getName(void)const
 {
-	return (this->_name);
+	return (_name);
 }
 
 int	Bureaucrat::getGrade(void)const
 {
-	return (this->_grade);
+	return (_grade);
 }
 
 void	Bureaucrat::setGrade(int grade)
@@ -63,19 +63,19 @@ void	Bureaucrat::setGrade(int grade)
 	else if (grade < 1)
 		throw Bureaucrat::GradeTooHighException();
 	else
-		this->_grade = grade;
+		_grade = grade;
 }
 
 void	Bureaucrat::incrementGrade(void)
 {
 	std::cout << "Trying to increment grade of " << this->getName() << std::endl;
-	this->setGrade(this->_grade - 1);
+	this->setGrade(_grade - 1);
 }
 
 void	Bureaucrat::decrementGrade(void)
 {
 	std::cout << "Trying to decrement grade of " << this->getName() << std::endl;
-	this->setGrade(this->_grade + 1);
+	this->setGrade(_grade + 1);
 }
 
 const char *Bureaucrat::GradeTooLowException::what(void) const throw()
