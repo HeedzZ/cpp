@@ -14,46 +14,38 @@
 
 #include <cstdlib>
 
-RobotomyRequestForm::RobotomyRequestForm(): AForm("RobotomyRequestForm", 72, 45), _target("default")
+RobotomyRequestForm::RobotomyRequestForm(): AForm("RobotomyRequestForm", 25, 5), _target("default")
 {
-	std::cout << "RobotomyRequestForm Default Constructor called" << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm(std::string target): AForm("RobotomyRequestForm", 72, 45), _target(target)
+RobotomyRequestForm::RobotomyRequestForm(std::string target): AForm("RobotomyRequestForm", 25, 5), _target(target)
 {
-	std::cout << "RobotomyRequestForm Constructor for target " << this->getTarget() << " called" << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm &src): AForm("RobotomyRequestForm", 72, 45), _target(src.getTarget())
+RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm &src): AForm("RobotomyRequestForm", 25, 5), _target(src.getTarget())
 {
-	std::cout << "RobotomyRequestForm Copy Constructor called to copy " << src.getName() <<
-	" into " << this->getName() << std::endl;
-
 	*this = src;
-}
-
-RobotomyRequestForm::~RobotomyRequestForm()
-{
-	std::cout << "RobotomyRequestForm Destructor " << this->getName() << " called" << std::endl;
 }
 
 RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &src)
 {
-	std::cout << "RobotomyRequestForm Assignation operator called" << std::endl;
-	if (this == &src)
-		return *this;
+	if (this != &src)
+		_target = src._target;
 	return *this;
+}
+
+RobotomyRequestForm::~RobotomyRequestForm()
+{
 }
 
 void	RobotomyRequestForm::execute(Bureaucrat const &executor)const
 {
 	if ((int)executor.getGrade() > this->getExecGrade())
 		throw (Bureaucrat::GradeTooLowException());
-	else if (this->getIsSignedBool() == false)
+	else if (this->getIsSigned() == false)
 		throw (AForm::FormNotSignedException());
 	else
 	{
-		std::cout << executor.getName() << " executed " << this->getName() << std::endl;
 		if (std::rand() % 2 == 0)
 			std::cout << "BZZZZZZZZZZZZZZZZ\n" << this->getTarget() << " has been robotomized" << std::endl;
 		else
@@ -66,12 +58,12 @@ std::string	RobotomyRequestForm::getTarget(void)const
 	return (this->_target);
 }
 
-std::ostream	&operator<<(std::ostream &o, RobotomyRequestForm *a)
+std::ostream&	operator<<(std::ostream& os, const RobotomyRequestForm& form)
 {
-	o << "Form " << a->getName() <<
-	":\n\tsign-grade:\t" << a->getSignGrade() <<
-	"\n\texec-grade:\t" << a->getExecGrade() <<
-	"\n\tis signed:\t" << a->getIsSigned() <<
+	os << "Form " << form.getName() <<
+	":\n\tsign-grade:\t" << form.getSignGrade() <<
+	"\n\texec-grade:\t" << form.getExecGrade() <<
+	"\n\tis signed:\t" << form.getIsSigned() <<
 	std::endl;
-	return (o);
+	return (os);
 }

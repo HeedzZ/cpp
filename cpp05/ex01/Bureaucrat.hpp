@@ -17,14 +17,11 @@
 #include <iostream>
 #include "Form.hpp"
 
-
-
 class Bureaucrat
 {
     private:
         const std::string	_name;
-		int	_grade;
-		void setGrade(int grade);
+		int					_grade;
 
     public:
         Bureaucrat( void );
@@ -35,23 +32,25 @@ class Bureaucrat
 
 		const std::string getName(void)const;
 		int getGrade(void)const;
+
 		void incrementGrade(void);
 		void decrementGrade(void);
-		void signForm(Form &form);
+
+		void signForm(class Form& form);
 
 		class GradeTooLowException : public std::exception
 		{
 		public:
-			virtual const char *what() const throw();
+			const char *what() const throw();
 		};
 
 		class GradeTooHighException : public std::exception
 		{
 		public:
-			virtual const char *what() const throw();
+			const char *what() const throw();
 		};
 };
 
-std::ostream	&operator<<(std::ostream &o, Bureaucrat *a);
+std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat);
 
 #endif

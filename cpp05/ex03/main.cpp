@@ -10,40 +10,65 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AForm.hpp"
-#include "Intern.hpp"
 #include "Bureaucrat.hpp"
+#include "Intern.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include <iostream>
 
-int main(void)
-{
-	Intern		bob;
-	AForm		*form;
-	Bureaucrat	Ruddy("Ruddy", 5);
+int main() {
+    try {
+        Intern someRandomIntern;
+        Bureaucrat boss("Boss", 1);
+        Bureaucrat employee("Employee", 45);
 
-	try
-	{
-		form = bob.makeForm("robotomy request", "Alice");
-		delete form;
-		form = bob.makeForm("shrubbery creation", "Charlie");
-		delete form;
-		form = bob.makeForm("presidential pardon", "David");
-		delete form;
-		form = bob.makeForm("random request", "Elisa");
-		delete form;
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	std::cout << "------------------------------------" << std::endl;
-	form = bob.makeForm("shrubbery creation", "Fred");
-	form->beSigned(Ruddy);
-	Ruddy.executeForm(*form);
-	delete form;
-	std::cout << "------------------------------------" << std::endl;
-	form = bob.makeForm("presidential pardon", "Georgia");
-	Ruddy.signForm(*form);
-	Ruddy.executeForm(*form);
-	delete form;
-	return (0);
+        AForm *presForm = NULL;
+        AForm *robotForm = NULL;
+        AForm *shrubForm = NULL;
+
+        try {
+            presForm = someRandomIntern.makeForm("presidential pardon", "TargetA");
+            robotForm = someRandomIntern.makeForm("robotomy request", "TargetB");
+            shrubForm = someRandomIntern.makeForm("shrubbery creation", "TargetC");
+        } catch (const std::exception &e) {
+            std::cerr << "Exception caught during form creation: " << e.what() << std::endl;
+        }
+
+        if (presForm) {
+            std::cout << *presForm << std::endl;
+            boss.signForm(*presForm);
+            boss.executeForm(*presForm);
+            delete presForm;  // Suppression après utilisation
+        }
+
+        if (robotForm) {
+            std::cout << *robotForm << std::endl;
+            boss.signForm(*robotForm);
+            boss.executeForm(*robotForm);
+            delete robotForm;  // Suppression après utilisation
+        }
+
+        if (shrubForm) {
+            std::cout << *shrubForm << std::endl;
+            employee.signForm(*shrubForm);
+            employee.executeForm(*shrubForm);
+            delete shrubForm;  // Suppression après utilisation
+        }
+
+        // Tentative de créer un formulaire invalide
+        try {
+            AForm *invalidForm = someRandomIntern.makeForm("invalid form", "TargetD");
+            if (invalidForm) {
+                delete invalidForm;  // Suppression même en cas de formulaire invalide
+            }
+        } catch (const std::exception &e) {
+            std::cerr << "Exception caught: " << e.what() << std::endl;
+        }
+
+    } catch (std::exception &e) {
+        std::cerr << "Unexpected exception: " << e.what() << std::endl;
+    }
+
+    return 0;
 }

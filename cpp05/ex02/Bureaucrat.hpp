@@ -23,8 +23,7 @@ class Bureaucrat
 {
     private:
         const std::string	_name;
-		int	_grade;
-		void setGrade(int grade);
+		int					_grade;
 
     public:
         Bureaucrat( void );
@@ -53,6 +52,6 @@ class Bureaucrat
 		};
 };
 
-std::ostream	&operator<<(std::ostream &o, Bureaucrat *a);
+std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat);
 
 #endif

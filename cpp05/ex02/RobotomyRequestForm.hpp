@@ -20,7 +20,7 @@
 class RobotomyRequestForm: public AForm
 {
 	private:
-		const std::string _target;
+		std::string _target;
 		RobotomyRequestForm(void);
 	public:
 		RobotomyRequestForm(std::string target);
@@ -31,7 +31,7 @@ class RobotomyRequestForm: public AForm
 		std::string getTarget(void)const;
 };
 
-std::ostream	&operator<<(std::ostream &o, RobotomyRequestForm *a);
+std::ostream&	operator<<(std::ostream& os, const RobotomyRequestForm& form);
 
 #endif
 

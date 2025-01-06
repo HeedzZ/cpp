@@ -14,23 +14,19 @@
 
 Intern::Intern()
 {
-	std::cout << "Intern Default Constructor called" << std::endl;
 }
 
 Intern::Intern(const Intern &src)
 {
-	std::cout << "Intern Copy Constructor called" << std::endl;
 	*this = src;
 }
 
 Intern::~Intern()
 {
-	std::cout << "Intern Destructor called" << std::endl;
 }
 
 Intern &Intern::operator=(const Intern &rhs)
 {
-	std::cout << "Intern Assignation operator called" << std::endl;
 	if (this == &rhs)
 		return *this;
 	return *this;
@@ -51,7 +47,6 @@ static AForm	*makeShrubbery(const std::string target)
 	return (new ShrubberyCreationForm(target));
 }
 
-// Public Methods
 AForm	*Intern::makeForm(const std::string form_name, const std::string target)
 {
 	AForm *(*all_forms[])(const std::string target) = {&makePresident, &makeRobot, &makeShrubbery};

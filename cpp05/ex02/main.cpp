@@ -11,93 +11,102 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "AForm.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include <iostream>
 
-int main(void)
-{
-	//AForm *b = new AForm();
-	Bureaucrat *a = new Bureaucrat("Ruddy", 50);
-	ShrubberyCreationForm *form = new ShrubberyCreationForm("Ruddy");
+int main() {
+    try {
+        Bureaucrat highRank("HighRank", 1);
+        Bureaucrat lowRank("LowRank", 50);
+        Bureaucrat tooLowRank("TooLowRank", 150);
+        
+        PresidentialPardonForm pForm("TargetX");
+        std::cout << pForm << std::endl;
 
-	std::cout << a;
-	std::cout << form;
-	try
-	{
-		form->beSigned(*a);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	try
-	{
-		form->execute(*a);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+        try {
+            tooLowRank.signForm(pForm);
+        } catch (std::exception &e) {
+            std::cerr << "TooLowRank couldn't sign the Presidential form: " << e.what() << std::endl;
+        }
 
-	delete(a);
-	delete(form);
-	
-	Bureaucrat *b = new Bureaucrat("Ruddy2", 45);
-	RobotomyRequestForm *form2 = new RobotomyRequestForm("Ruddy2");
-	std::cout << b;
-	std::cout << form2;
-	try
-	{
-		form2->beSigned(*b);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	try
-	{
-		form2->execute(*b);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	try
-	{
-		form2->execute(*b);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+        try {
+            highRank.signForm(pForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't sign the Presidential form: " << e.what() << std::endl;
+        }
 
-	delete(b);
-	delete(form2);
+        try {
+            lowRank.executeForm(pForm);
+        } catch (std::exception &e) {
+            std::cerr << "LowRank couldn't execute the Presidential form: " << e.what() << std::endl;
+        }
 
+        try {
+            highRank.executeForm(pForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't execute the Presidential form: " << e.what() << std::endl;
+        }
 
-	
-	Bureaucrat *c = new Bureaucrat("Ruddy3", 5);
-	PresidentialPardonForm *form3 = new PresidentialPardonForm("Ruddy3");
-	std::cout << c;
-	std::cout << form3;
-	try
-	{
-		form3->beSigned(*c);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	try
-	{
-		form3->execute(*c);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	delete(c);
-	delete(form3);
+        RobotomyRequestForm rForm("TargetY");
+        std::cout << rForm << std::endl;
+
+        try {
+            lowRank.signForm(rForm);
+        } catch (std::exception &e) {
+            std::cerr << "LowRank couldn't sign the Robotomy form: " << e.what() << std::endl;
+        }
+
+        try {
+            highRank.signForm(rForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't sign the Robotomy form: " << e.what() << std::endl;
+        }
+
+        try {
+            lowRank.executeForm(rForm);
+        } catch (std::exception &e) {
+            std::cerr << "LowRank couldn't execute the Robotomy form: " << e.what() << std::endl;
+        }
+
+        try {
+            highRank.executeForm(rForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't execute the Robotomy form: " << e.what() << std::endl;
+        }
+
+        ShrubberyCreationForm sForm("TargetZ");
+        std::cout << sForm << std::endl;
+
+        try {
+            tooLowRank.signForm(sForm);
+        } catch (std::exception &e) {
+            std::cerr << "TooLowRank couldn't sign the Shrubbery form: " << e.what() << std::endl;
+        }
+
+        try {
+            highRank.signForm(sForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't sign the Shrubbery form: " << e.what() << std::endl;
+        }
+
+        try {
+            lowRank.executeForm(sForm);
+        } catch (std::exception &e) {
+            std::cerr << "LowRank couldn't execute the Shrubbery form: " << e.what() << std::endl;
+        }
+
+        try {
+            highRank.executeForm(sForm);
+        } catch (std::exception &e) {
+            std::cerr << "HighRank couldn't execute the Shrubbery form: " << e.what() << std::endl;
+        }
+
+    } catch (std::exception &e) {
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
+
+    return 0;
 }
+

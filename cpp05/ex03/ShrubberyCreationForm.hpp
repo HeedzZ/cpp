@@ -20,7 +20,7 @@
 class ShrubberyCreationForm: public AForm
 {
 	private:
-		const std::string _target;
+		std::string _target;
 		ShrubberyCreationForm(void);
 	public:
 		ShrubberyCreationForm(std::string target);
@@ -31,7 +31,6 @@ class ShrubberyCreationForm: public AForm
 		std::string getTarget(void)const;
 };
 
-std::ostream	&operator<<(std::ostream &o, ShrubberyCreationForm *a);
+std::ostream&	operator<<(std::ostream& os, const ShrubberyCreationForm& form);
 
 #endif
-

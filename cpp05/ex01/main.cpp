@@ -13,48 +13,34 @@
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
 
-int main(void)
-{
-	std::cout << "Test #1\n" << std::endl;
-	Bureaucrat *a = new Bureaucrat();
-	Form *b = new Form();
-	std::cout << std::endl;
+int main() {
+    try {
+        Bureaucrat bob("Bob", 50);
+        Form taxForm("Tax Form", 45, 30);
 
-	std::cout << a;
-	std::cout << b;
+        std::cout << taxForm << std::endl;
+        bob.signForm(taxForm);
+        std::cout << taxForm << std::endl;
 
-	try
-	{
-		a->signForm(*b);
-	}
-	catch(Bureaucrat::GradeTooLowException &e)
-	{
-		std::cerr << a->getName() << " was not able to sign " << b->getName() << ": " << e.what() << std::endl;
-	}
+        Bureaucrat alice("Alice", 30);
 
-	std::cout << b;
-	std::cout << "Test #2\n" << std::endl;
-	Form *c = new Form(*b);
-	std::cout << std::endl;
-	std::cout << c;
-	delete a;
-	delete b;
-	delete c;
-	std::cout << std::endl;
-	std::cout << "Test #3\n" << std::endl;
-	Bureaucrat new_employee("new employee", 150);
-	Bureaucrat boss("the boss", 1);
-	std::cout << &new_employee;
-	std::cout << &boss;
-	Form vform("Very important", 1, 1);
-	std::cout << &vform;
-	try
-	{
-		new_employee.signForm(vform);
-	}
-	catch(Bureaucrat::GradeTooLowException &e)
-	{
-		std::cerr << new_employee.getName() << " was not able to sign " << new_employee.getName() << ": " << e.what() << std::endl;
-	}
-	return 0;
+        alice.signForm(taxForm);
+        std::cout << taxForm << std::endl;
+
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        Bureaucrat john("John", 151);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    try {
+        Form invalidForm("Invalid Form", 0, 150);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 0;
 }
