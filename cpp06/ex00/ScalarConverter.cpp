@@ -1,25 +1,43 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ScalarConverter.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ymostows <ymostows@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 11:20:10 by ymostows          #+#    #+#             */
-/*   Updated: 2024/10/17 15:39:55 by ymostows         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ScalarConverter.hpp"
-#include <string>
 
-ScalarConverter::ScalarConverter()
-{
+ScalarConverter::ScalarConverter() {}
+
+ScalarConverter::ScalarConverter(const ScalarConverter& other) {
+    (void)other;
 }
 
-ScalarConverter::~ScalarConverter()
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) {
+    (void)other;
+    return *this;
+}
+
+ScalarConverter::~ScalarConverter() {}
+
+void ScalarConverter::convert(const std::string& literal)
 {
-    std::cout << "ScalarConverter destructor called" << std::endl;
+    if (literal.length() == 1 && std::isprint(literal[0]) && !std::isdigit(literal[0]))
+    {
+        char c = literal[0];
+        double value = static_cast<double>(c);
+        printChar(value);
+        printInt(value);
+        printFloat(value);
+        printDouble(value);
+        return;
+    }
+
+    char* end;
+    double value = std::strtod(literal.c_str(), &end);
+
+    if (*end != '\0' && *end != 'f') {
+        std::cout << "Conversion error: invalid literal" << std::endl;
+        return;
+    }
+
+    printChar(value);
+    printInt(value);
+    printFloat(value);
+    printDouble(value);
 }
 
 void ScalarConverter::printChar(double value)
@@ -36,46 +54,34 @@ void ScalarConverter::printInt(double value)
 {
     if (std::isnan(value) || value < std::numeric_limits<int>::min() || value > std::numeric_limits<int>::max())
         std::cout << "int: impossible" << std::endl;
-    else 
-    {
-        int intValue = static_cast<int>(value);
-        std::cout << "int: " << intValue << std::endl;
-    }
+    else
+        std::cout << "int: " << static_cast<int>(value) << std::endl;
 }
+
 void ScalarConverter::printFloat(double value)
 {
-    if (std::isnan(value) || value < std::numeric_limits<float>::min() || value > std::numeric_limits<float>::max())
-        std::cout << "float: impossible" << std::endl;
-    else 
+    if (std::isnan(value))
+        std::cout << "float: nanf" << std::endl;
+    else if (std::isinf(value))
+        std::cout << "float: " << ((value < 0) ? "-inff" : "+inff") << std::endl;
+    else
     {
         float floatValue = static_cast<float>(value);
-        std::cout << "float: " << floatValue << "f" <<std::endl;
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << "float: " << floatValue << "f" << std::endl;
     }
 }
 
 void ScalarConverter::printDouble(double value)
 {
-    if (std::isnan(value) || value < std::numeric_limits<double>::min() || value > std::numeric_limits<double>::max())
-        std::cout << "double: impossible" << std::endl;
-    else 
+    if (std::isnan(value))
+        std::cout << "double: nan" << std::endl;
+    else if (std::isinf(value))
+        std::cout << "double: " << ((value < 0) ? "-inf" : "+inf") << std::endl;
+    else
     {
-        double doubleValue = static_cast<double>(value);
-        std::cout << "double: " << doubleValue << std::endl;
+        std::cout << std::fixed << std::setprecision(1);
+        std::cout << "double: " << value << std::endl;
     }
 }
 
-void ScalarConverter::convert(const std::string& literal)
-{
-    char* end;
-    double value = std::strtod(literal.c_str(), &end);
-
-    if (*end != '\0' && *end != 'f') {
-        std::cout << "Conversion error: invalid literal" << std::endl;
-        return;
-    }
-
-    printChar(value);
-    printInt(value);
-    printFloat(value);
-    printDouble(value);
-}

@@ -1,4 +1,4 @@
-NAME		= ScalarConverter
+NAME		= Identify
 	
 CC			= c++
 FLAGS		= -Wall -Wextra -Werror -std=c++98
@@ -6,11 +6,11 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main ScalarConverter
+FILES		= Base Functions main A B C
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER		= ScalarConverter.hpp
+HEADER		= Base.hpp Functions.hpp A.hpp B.hpp C.hpp
 
 .PHONY: all clean fclean re bonus norm
 

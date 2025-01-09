@@ -1,4 +1,4 @@
-NAME		= ScalarConverter
+NAME		= Serializer
 	
 CC			= c++
 FLAGS		= -Wall -Wextra -Werror -std=c++98
@@ -6,11 +6,11 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main ScalarConverter
+FILES		= main Serializer
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER		= ScalarConverter.hpp
+HEADER		= Serializer.hpp
 
 .PHONY: all clean fclean re bonus norm
 
