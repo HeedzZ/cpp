@@ -19,7 +19,7 @@ private:
     void mergeInsertSort(std::deque<int>& container);
 
     template<typename Container>
-	void PmergeMe::printContainer(const std::string& message, const Container& container) {
+	void printContainer(const std::string& message, const Container& container) {
 		std::cout << message << " ";
 		for (typename Container::const_iterator it = container.begin(); it != container.end(); ++it) {
 			std::cout << *it << " ";
