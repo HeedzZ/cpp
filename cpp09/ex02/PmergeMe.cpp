@@ -1,6 +1,4 @@
 #include "PmergeMe.hpp"
-#include <algorithm>
-#include <ctime>
 
 PmergeMe::PmergeMe() {}
 
@@ -16,55 +14,100 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::sort(std::vector<int>& sequence) {
+void PmergeMe::sort(const std::vector<int>& sequence) {
     if (sequence.empty()) {
         throw std::invalid_argument("Error: Sequence is empty.");
     }
 
-    printContainer("Before:", sequence);
-
-    std::vector<int> vectorContainer(sequence);
+    std::vector<int> vectorContainer(sequence.begin(), sequence.end());
     std::deque<int> dequeContainer(sequence.begin(), sequence.end());
 
+    printContainer("Before:", vectorContainer);
+
     clock_t start = clock();
-    mergeInsertSort(vectorContainer);
+    fordJohnsonSort(vectorContainer);
     clock_t end = clock();
     printContainer("After (std::vector):", vectorContainer);
-    printExecutionTime("std::vector", static_cast<double>(end - start) / CLOCKS_PER_SEC * 1e6);
+    printExecutionTime("std::vector", static_cast<double>(end - start) / CLOCKS_PER_SEC);
 
     start = clock();
-    mergeInsertSort(dequeContainer);
+    fordJohnsonSort(dequeContainer);
     end = clock();
     printContainer("After (std::deque):", dequeContainer);
-    printExecutionTime("std::deque", static_cast<double>(end - start) / CLOCKS_PER_SEC * 1e6);
+    printExecutionTime("std::deque", static_cast<double>(end - start) / CLOCKS_PER_SEC);
 }
 
-void PmergeMe::mergeInsertSort(std::vector<int>& container) {
+void PmergeMe::fordJohnsonSort(std::vector<int>& container) {
     if (container.size() <= 1)
         return;
 
-    size_t mid = container.size() / 2;
-    std::vector<int> left(container.begin(), container.begin() + mid);
-    std::vector<int> right(container.begin() + mid, container.end());
+    std::vector<int> smalls;
+    std::vector<int> larges;
 
-    mergeInsertSort(left);
-    mergeInsertSort(right);
+    formPairsVector(container, smalls, larges);
+    fordJohnsonSort(larges);
+    insertSmallsVector(larges, smalls);
 
-    std::merge(left.begin(), left.end(), right.begin(), right.end(), container.begin());
+    container = larges;
 }
 
-void PmergeMe::mergeInsertSort(std::deque<int>& container) {
+void PmergeMe::fordJohnsonSort(std::deque<int>& container) {
     if (container.size() <= 1)
         return;
 
-    size_t mid = container.size() / 2;
-    std::deque<int> left(container.begin(), container.begin() + mid);
-    std::deque<int> right(container.begin() + mid, container.end());
+    std::deque<int> smalls;
+    std::deque<int> larges;
 
-    mergeInsertSort(left);
-    mergeInsertSort(right);
+    formPairsDeque(container, smalls, larges);
+    fordJohnsonSort(larges);
+    insertSmallsDeque(larges, smalls);
+    container = larges;
+}
 
-    std::merge(left.begin(), left.end(), right.begin(), right.end(), container.begin());
+void PmergeMe::formPairsVector(const std::vector<int>& input, std::vector<int>& smalls, std::vector<int>& larges) {
+    for (size_t i = 0; i < input.size(); i += 2) {
+        if (i + 1 < input.size()) {
+            if (input[i] < input[i + 1]) {
+                smalls.push_back(input[i]);
+                larges.push_back(input[i + 1]);
+            } else {
+                smalls.push_back(input[i + 1]);
+                larges.push_back(input[i]);
+            }
+        } else {
+            smalls.push_back(input[i]);
+        }
+    }
+}
+
+void PmergeMe::formPairsDeque(const std::deque<int>& input, std::deque<int>& smalls, std::deque<int>& larges) {
+    for (size_t i = 0; i < input.size(); i += 2) {
+        if (i + 1 < input.size()) {
+            if (input[i] < input[i + 1]) {
+                smalls.push_back(input[i]);
+                larges.push_back(input[i + 1]);
+            } else {
+                smalls.push_back(input[i + 1]);
+                larges.push_back(input[i]);
+            }
+        } else {
+            smalls.push_back(input[i]);
+        }
+    }
+}
+
+void PmergeMe::insertSmallsVector(std::vector<int>& sorted, const std::vector<int>& smalls) {
+    for (size_t i = 0; i < smalls.size(); ++i) {
+        std::vector<int>::iterator position = std::upper_bound(sorted.begin(), sorted.end(), smalls[i]);
+        sorted.insert(position, smalls[i]);
+    }
+}
+
+void PmergeMe::insertSmallsDeque(std::deque<int>& sorted, const std::deque<int>& smalls) {
+    for (size_t i = 0; i < smalls.size(); ++i) {
+        std::deque<int>::iterator position = std::upper_bound(sorted.begin(), sorted.end(), smalls[i]);
+        sorted.insert(position, smalls[i]);
+    }
 }
 
 void PmergeMe::printExecutionTime(const std::string& containerName, double duration) {
